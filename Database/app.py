@@ -4,6 +4,7 @@ from werkzeug.utils import secure_filename
 import uuid
 import os
 
+from flask import Flask
 app = Flask(__name__)
 
 app.secret_key = "cmms_secret_key"
