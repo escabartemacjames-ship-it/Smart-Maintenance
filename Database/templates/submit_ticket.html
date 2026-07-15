@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/css/tom-select.css" rel="stylesheet">
+<title>Submit Maintenance Ticket</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<style>
+
+body{
+    background:#eef2f7;
+    font-family:'Segoe UI',sans-serif;
+}
+
+.navbar{
+    background:linear-gradient(90deg,#0d6efd,#2563eb);
+    box-shadow:0 5px 15px rgba(0,0,0,.1);
+}
+
+.ticket-card{
+
+    border:none;
+
+    border-radius:20px;
+
+    box-shadow:0 15px 35px rgba(0,0,0,.08);
+
+    overflow:hidden;
+}
+
+.card-header{
+
+    background:linear-gradient(90deg,#0d6efd,#2563eb);
+
+    color:white;
+
+    padding:20px;
+}
+
+.form-label{
+
+    font-weight:600;
+}
+
+.input-group-text{
+
+    background:#f8f9fa;
+
+    width:45px;
+
+    justify-content:center;
+}
+
+.form-control,
+.form-select{
+
+    border-radius:10px;
+}
+
+.btn-submit{
+
+    border-radius:12px;
+
+    padding:14px;
+
+    font-size:17px;
+
+    font-weight:600;
+
+    transition:.3s;
+}
+
+.btn-submit:hover{
+
+    transform:translateY(-3px);
+
+    box-shadow:0 12px 25px rgba(25,135,84,.3);
+}
+
+.upload-box{
+
+    border:2px dashed #ced4da;
+
+    border-radius:12px;
+
+    padding:20px;
+
+    background:#fafafa;
+}
+
+.help-box{
+
+    background:#e8f4ff;
+
+    border-left:5px solid #0d6efd;
+
+    padding:15px;
+
+    border-radius:10px;
+
+    margin-bottom:25px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<nav class="navbar navbar-dark">
+
+<div class="container-fluid">
+
+<span class="navbar-brand">
+
+<i class="fa-solid fa-screwdriver-wrench me-2"></i>
+
+Smart Maintenance Management System
+
+</span>
+
+<a href="/dashboard" class="btn btn-light rounded-pill">
+
+<i class="fa-solid fa-arrow-left me-2"></i>
+
+Dashboard
+
+</a>
+
+</div>
+
+</nav>
+
+<div class="container py-5">
+
+<div class="row justify-content-center">
+
+<div class="col-lg-9">
+
+<div class="card ticket-card">
+
+<div class="card-header">
+
+<h3 class="mb-0">
+
+<i class="fa-solid fa-ticket me-2"></i>
+
+Submit Maintenance Request
+
+</h3>
+
+</div>
+
+<div class="card-body p-4">
+
+<div class="help-box">
+
+<strong>Before submitting:</strong>
+
+Please provide an accurate location and a clear description so the maintenance team can resolve the issue faster.
+
+</div>
+
+<form action="/save_ticket"
+method="POST"
+enctype="multipart/form-data">
+
+<div class="row">
+
+<div class="col-md-6 mb-4">
+
+<label class="form-label">
+
+Category
+
+</label>
+
+<div class="input-group">
+
+<span class="input-group-text">
+
+<i class="fa-solid fa-list"></i>
+
+</span>
+
+<select
+name="category"
+class="form-select"
+required>
+
+<option value="">Select Category</option>
+
+<option>Classroom</option>
+
+<option>Restroom</option>
+
+<option>Lounge</option>
+
+<option>Faculty</option>
+
+<option>Others</option>
+
+</select>
+
+</div>
+
+</div>
+
+<div class="col-md-6 mb-4">
+
+
+<div class="input-group">
+
+
+</div>
+
+</div>
+
+</div>
+
+<div class="mb-4">
+
+<label class="form-label">
+
+Location
+
+</label>
+
+<div class="input-group">
+
+<span class="input-group-text">
+
+<i class="fa-solid fa-location-dot"></i>
+
+</span>
+
+<select
+name="location"
+id="location"
+class="form-select"
+required>
+
+<option value="">Search or Select Location</option>
+
+
+<option>Registrar Office</option>
+<option>Accounting Office</option>
+<option>Guidance Office</option>
+<option>Clinic</option>
+<option>Library</option>
+<option>Cafeteria</option>
+
+
+
+
+
+<option>F401</option>
+<option>F402</option>
+<option>F403</option>
+<option>F404</option>
+<option>F405</option>
+<option>F406</option>
+<option>F407</option>
+<option>F408</option>
+<option>F409</option>
+<option>F410</option>
+<option>F411</option>
+<option>F412</option>
+
+<option>F501</option>
+<option>F502</option>
+<option>F503</option>
+<option>F504</option>
+<option>F505</option>
+<option>F506</option>
+<option>F507</option>
+<option>F508</option>
+<option>F509</option>
+<option>F510</option>
+<option>F511</option>
+<option>F512</option>
+
+<option>F601</option>
+<option>F602</option>
+<option>F603</option>
+<option>F604</option>
+<option>F605</option>
+<option>F606</option>
+<option>F607</option>
+<option>F608</option>
+<option>F609</option>
+<option>F610</option>
+<option>F611</option>
+<option>F612</option>
+
+<option>F701</option>
+<option>F702</option>
+<option>F703</option>
+<option>F704</option>
+<option>F705</option>
+<option>F706</option>
+<option>F707</option>
+<option>F708</option>
+<option>F709</option>
+<option>F710</option>
+<option>F711</option>
+<option>F712</option>
+
+<option>F901</option>
+<option>F902</option>
+<option>F903</option>
+<option>F904</option>
+<option>F905</option>
+<option>F906</option>
+<option>F907</option>
+<option>F908</option>
+<option>F909</option>
+<option>F910</option>
+<option>F911</option>
+<option>F912</option>
+
+<option>F1001</option>
+<option>F1002</option>
+<option>F1003</option>
+<option>F1004</option>
+<option>F1005</option>
+<option>F1006</option>
+<option>F1007</option>
+<option>F1008</option>
+<option>F1009</option>
+<option>F1010</option>
+<option>F1011</option>
+<option>F1012</option>
+
+<option>F1101</option>
+<option>F1102</option>
+<option>F1103</option>
+<option>F1104</option>
+<option>F1105</option>
+<option>F1106</option>
+<option>F1107</option>
+<option>F1108</option>
+<option>F1109</option>
+<option>F1110</option>
+<option>F1111</option>
+<option>F1112</option>
+
+<option>F1201</option>
+<option>F1202</option>
+<option>F1203</option>
+<option>F1204</option>
+<option>F1205</option>
+<option>F1206</option>
+<option>F1207</option>
+<option>F1208</option>
+<option>F1209</option>
+<option>F1210</option>
+<option>F1211</option>
+<option>F1212</option>
+
+</select>
+
+</div>
+
+</div>
+
+<div class="mb-4">
+
+<label class="form-label">
+
+Issue Description
+
+</label>
+
+<textarea
+name="description"
+rows="6"
+class="form-control"
+placeholder="Describe the maintenance issue in detail..."
+required></textarea>
+
+</div>
+
+<div class="mb-4">
+
+<label class="form-label">
+
+Upload Supporting Photo
+
+</label>
+
+<div class="upload-box">
+
+<input
+type="file"
+name="photo"
+class="form-control"
+accept=".jpg,.jpeg,.png">
+
+<small class="text-muted">
+
+Accepted formats: JPG, JPEG, PNG
+
+</small>
+
+</div>
+
+</div>
+
+<div class="d-grid">
+
+<button
+type="submit"
+class="btn btn-success btn-submit">
+
+<i class="fa-solid fa-paper-plane me-2"></i>
+
+Submit Maintenance Request
+
+</button>
+
+</div>
+
+</form>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+<script src="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/js/tom-select.complete.min.js"></script>
+
+<script>
+
+new TomSelect("#location",{
+
+    create:false,
+
+    placeholder:"Search for a room...",
+
+    maxOptions:200,
+
+    searchField:["text"],
+
+    sortField:"text"
+
+});
+
+</script>
+</body>
+</html>

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CMMS Dashboard</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<style>
+body{background:#eef2f7;font-family:'Segoe UI',sans-serif;}
+.navbar{background:linear-gradient(90deg,#0d6efd,#2563eb);box-shadow:0 5px 15px rgba(0,0,0,.1);}
+.navbar-brand{font-weight:700;}
+.sidebar{position:fixed;top:56px;left:0;width:240px;height:100vh;background:#fff;box-shadow:3px 0 15px rgba(0,0,0,.08);padding-top:20px;}
+.sidebar a{display:block;padding:14px 22px;color:#444;text-decoration:none;transition:.3s;}
+.sidebar a:hover{background:#0d6efd;color:#fff;border-radius:10px;margin:0 10px;}
+.main-content{margin-left:260px;padding:35px;}
+.dashboard-card{border:none;border-radius:18px;box-shadow:0 8px 20px rgba(0,0,0,.08);transition:.3s;}
+.dashboard-card:hover{transform:translateY(-5px);}
+.card-icon{font-size:42px;}
+.stat-number{font-size:2rem;font-weight:700;}
+.table-container{background:#fff;border-radius:18px;padding:25px;box-shadow:0 8px 20px rgba(0,0,0,.08);}
+.table thead{background:#0d6efd;color:#fff;}
+.table thead th{border:none;}
+.badge{padding:8px 14px;border-radius:30px;}
+</style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark">
+<div class="container-fluid">
+<a class="navbar-brand" href="#"><i class="fa-solid fa-screwdriver-wrench me-2"></i>Smart Maintenance Management System</a>
+</div>
+</nav>
+
+<div class="sidebar">
+<a href="#"><i class="fa-solid fa-house me-2"></i>Dashboard</a>
+<a href="/submit_ticket"><i class="fa-solid fa-plus me-2"></i>Submit Ticket</a>
+<a href="/logout"><i class="fa-solid fa-right-from-bracket me-2"></i>Logout</a>
+</div>
+
+<div class="main-content">
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+<div>
+<h2 class="fw-bold">Welcome back, {{ fullname }} 👋</h2>
+<p class="text-muted">Monitor maintenance requests and keep school facilities operating efficiently.</p>
+</div>
+<a href="/submit_ticket" class="btn btn-success rounded-pill px-4">
+<i class="fa-solid fa-plus me-2"></i>New Maintenance Ticket
+</a>
+</div>
+
+<div class="row g-4 mb-4">
+<div class="col-md-3">
+<div class="card dashboard-card"><div class="card-body d-flex justify-content-between align-items-center">
+<div><div class="text-muted">Total Tickets</div><div class="stat-number">{{ tickets|length }}</div></div>
+<i class="fa-solid fa-ticket card-icon text-primary"></i>
+</div></div></div>
+
+<div class="col-md-3">
+<div class="card dashboard-card"><div class="card-body d-flex justify-content-between align-items-center">
+<div><div class="text-muted">Pending</div><div class="stat-number">--</div></div>
+<i class="fa-solid fa-clock card-icon text-warning"></i>
+</div></div></div>
+
+<div class="col-md-3">
+<div class="card dashboard-card"><div class="card-body d-flex justify-content-between align-items-center">
+<div><div class="text-muted">In Progress</div><div class="stat-number">--</div></div>
+<i class="fa-solid fa-spinner card-icon text-info"></i>
+</div></div></div>
+
+<div class="col-md-3">
+<div class="card dashboard-card"><div class="card-body d-flex justify-content-between align-items-center">
+<div><div class="text-muted">Completed</div><div class="stat-number">--</div></div>
+<i class="fa-solid fa-circle-check card-icon text-success"></i>
+</div></div></div>
+</div>
+
+<div class="table-container">
+<div class="d-flex justify-content-between align-items-center mb-3">
+<h4 class="fw-bold mb-0">Recent Maintenance Requests</h4>
+<input type="text" class="form-control w-25" placeholder="Search...">
+</div>
+
+<table class="table table-hover align-middle">
+<thead>
+<tr>
+<th>Ticket No</th>
+<th>Category</th>
+<th>Location</th>
+<th>Priority</th>
+<th>Status</th>
+
+</tr>
+</thead>
+<tbody>
+{% for ticket in tickets %}
+<tr>
+<td>{{ ticket[1] }}</td>
+<td>{{ ticket[3] }}</td>
+<td>{{ ticket[4] }}</td>
+<td>
+{% if ticket[6] == 'Critical' %}
+<span class="badge bg-danger">Critical</span>
+{% elif ticket[6] == 'High' %}
+<span class="badge bg-warning text-dark">High</span>
+{% elif ticket[6] == 'Medium' %}
+<span class="badge bg-primary">Medium</span>
+{% else %}
+<span class="badge bg-secondary">Low</span>
+{% endif %}
+</td>
+<td>
+
+<a href="/view_ticket/{{ ticket[0] }}"
+class="btn btn-primary btn-sm rounded-pill">
+
+<i class="fa-solid fa-eye me-1"></i>
+
+View
+
+</a>
+
+</td>   
+</tr>
+{% endfor %}
+</tbody>
+</table>
+</div>
+
+</div>
+</body>
+</html>

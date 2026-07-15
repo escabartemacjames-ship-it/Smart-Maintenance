@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Track Maintenance Ticket</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<style>
+
+body{
+    background:#eef2f7;
+    font-family:'Segoe UI',sans-serif;
+}
+
+.ticket-card{
+    border:none;
+    border-radius:20px;
+    box-shadow:0 10px 25px rgba(0,0,0,.08);
+}
+
+.header{
+    background:linear-gradient(90deg,#0d6efd,#2563eb);
+    color:white;
+    border-radius:20px 20px 0 0;
+    padding:20px;
+}
+
+.info-card{
+    background:#fff;
+    border-radius:15px;
+    padding:18px;
+    box-shadow:0 5px 15px rgba(0,0,0,.05);
+    margin-bottom:20px;
+}
+
+.ticket-photo{
+    width:100%;
+    max-height:280px;
+    object-fit:cover;
+    border-radius:15px;
+}
+
+.timeline{
+    position:relative;
+    margin-top:30px;
+    padding-left:45px;
+}
+
+.timeline::before{
+    content:"";
+    position:absolute;
+    left:15px;
+    top:0;
+    bottom:0;
+    width:4px;
+    background:#198754;
+}
+
+.timeline-item{
+    position:relative;
+    margin-bottom:30px;
+}
+
+.timeline-icon{
+    position:absolute;
+    left:-34px;
+    width:34px;
+    height:34px;
+    border-radius:50%;
+    background:#198754;
+    color:white;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:18px;
+}
+
+.timeline-content{
+    background:#fff;
+    border-radius:15px;
+    padding:20px;
+    box-shadow:0 6px 15px rgba(0,0,0,.08);
+}
+
+.timeline-content img{
+    border-radius:12px;
+    margin-top:10px;
+    max-width:320px;
+}
+
+.badge{
+    padding:8px 15px;
+    border-radius:30px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container py-5">
+
+<div class="card ticket-card">
+
+<div class="header">
+
+<h3>
+
+<i class="fa-solid fa-ticket me-2"></i>
+
+Track Maintenance Ticket
+
+</h3>
+
+</div>
+
+<div class="card-body p-4">
+
+<div class="row">
+
+<div class="col-lg-7">
+
+<div class="info-card">
+
+<h4>{{ ticket[1] }}</h4>
+
+<hr>
+
+<p>
+
+<strong>Category</strong><br>
+
+{{ ticket[3] }}
+
+</p>
+
+<p>
+
+<strong>Location</strong><br>
+
+{{ ticket[4] }}
+
+</p>
+
+<p>
+
+<strong>Description</strong><br>
+
+{{ ticket[5] }}
+
+</p>
+
+<p>
+
+<strong>Submitted On</strong><br>
+
+{{ ticket[15] }}
+
+</p>
+
+<p>
+
+<strong>Status</strong><br>
+
+{% if ticket[7]=="Completed" %}
+
+<span class="badge bg-success">
+
+Completed
+
+</span>
+
+{% elif ticket[7]=="In Progress" %}
+
+<span class="badge bg-info">
+
+In Progress
+
+</span>
+
+{% else %}
+
+<span class="badge bg-warning text-dark">
+
+Pending
+
+</span>
+
+{% endif %}
+
+</p>
+
+</div>
+
+</div>
+
+<div class="col-lg-5">
+
+<div class="info-card text-center">
+
+<h5>
+
+Reported Photo
+
+</h5>
+
+{% if ticket[8] %}
+
+<img
+src="{{ url_for('uploaded_file', filename=ticket[8]) }}"
+class="ticket-photo">
+
+{% else %}
+
+<p class="text-muted">
+
+No photo uploaded.
+
+</p>
+
+{% endif %}
+
+</div>
+
+</div>
+
+</div>
+
+<hr>
+
+<h4>
+
+<i class="fa-solid fa-clock-rotate-left me-2"></i>
+
+Maintenance Timeline
+
+</h4>
+
+{% if updates %}
+
+<div class="timeline">
+
+{% for update in updates %}
+
+<div class="timeline-item">
+
+<div class="timeline-icon">
+
+{% if update[0] == "Inspection Started" %}
+🔍
+{% elif update[0] == "Parts Ordered" %}
+📦
+{% elif update[0] == "Repair In Progress" %}
+🛠
+{% elif update[0] == "Testing" %}
+🧪
+{% elif update[0] == "Completed" %}
+✅
+{% else %}
+📌
+{% endif %}
+
+</div>
+
+<div class="timeline-content">
+
+<div class="d-flex justify-content-between">
+
+<h5 class="mb-0">
+
+{{ update[0] }}
+
+</h5>
+
+<small class="text-muted">
+
+{{ update[3] }}
+
+</small>
+
+</div>
+
+<p class="mt-3">
+
+{{ update[1] }}
+
+</p>
+
+{% if update[2] %}
+
+<img
+src="{{ url_for('uploaded_file', filename=update[2]) }}"
+class="img-fluid shadow">
+
+{% endif %}
+
+</div>
+
+</div>
+
+{% endfor %}
+
+</div>
+
+{% else %}
+
+<div class="alert alert-warning">
+
+<i class="fa-solid fa-circle-info me-2"></i>
+
+The maintenance team has not uploaded any progress updates yet.
+
+</div>
+
+{% endif %}
+
+<div class="mt-4">
+
+<a href="/dashboard" class="btn btn-secondary">
+
+<i class="fa-solid fa-arrow-left me-2"></i>
+
+Back to Dashboard
+
+</a>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</body>
+</html>

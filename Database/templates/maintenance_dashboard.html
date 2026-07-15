@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Maintenance Dashboard</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<style>
+
+body{
+    background:#eef2f7;
+    font-family:'Segoe UI',sans-serif;
+}
+
+.sidebar{
+    position:fixed;
+    left:0;
+    top:0;
+    width:250px;
+    height:100vh;
+    background:linear-gradient(180deg,#198754,#146c43);
+    color:white;
+    padding:25px;
+}
+
+.sidebar h2{
+    font-weight:bold;
+}
+
+.sidebar a{
+    display:block;
+    color:white;
+    text-decoration:none;
+    padding:12px;
+    border-radius:10px;
+    margin-top:10px;
+}
+
+.sidebar a:hover{
+    background:rgba(255,255,255,.15);
+}
+
+.main{
+    margin-left:250px;
+    padding:35px;
+}
+
+.card-box{
+
+    background:white;
+
+    border-radius:18px;
+
+    padding:20px;
+
+    box-shadow:0 10px 25px rgba(0,0,0,.08);
+
+    margin-bottom:25px;
+
+}
+
+.ticket-card{
+
+    background:#fff;
+
+    border-radius:20px;
+
+    padding:25px;
+
+    margin-bottom:25px;
+
+    box-shadow:0 8px 25px rgba(0,0,0,.08);
+
+    transition:.3s;
+
+}
+
+.ticket-card:hover{
+
+    transform:translateY(-6px);
+
+    box-shadow:0 18px 40px rgba(0,0,0,.12);
+
+}
+
+.ticket-image{
+
+    width:110px;
+
+    height:110px;
+
+    object-fit:cover;
+
+    border-radius:16px;
+
+    box-shadow:0 5px 15px rgba(0,0,0,.15);
+
+}
+
+.priority{
+
+    padding:6px 15px;
+
+    border-radius:30px;
+
+    color:white;
+
+    font-size:14px;
+
+}
+
+.progress{
+
+    height:22px;
+
+}
+
+img{
+
+    width:120px;
+
+    border-radius:12px;
+
+}
+.btn-view{
+
+    background:#198754;
+
+    color:#fff;
+
+    border-radius:40px;
+
+    padding:12px 25px;
+
+    display:inline-flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    font-weight:600;
+
+    text-decoration:none;
+
+    transition:.3s;
+
+}
+
+.btn-view:hover{
+
+    background:#157347;
+
+    color:#fff;
+
+    transform:translateX(5px);
+
+}
+
+.badge{
+
+    font-size:.85rem;
+
+    padding:8px 14px;
+
+    border-radius:30px;
+
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="sidebar">
+
+<h2>
+
+<i class="fa-solid fa-screwdriver-wrench"></i>
+
+FIXIT
+
+</h2>
+
+<p>Maintenance Staff</p>
+
+<a href="/maintenance/dashboard">
+
+<i class="fa-solid fa-house"></i>
+
+Dashboard
+
+</a>
+
+<a href="/logout">
+
+<i class="fa-solid fa-right-from-bracket"></i>
+
+Logout
+
+</a>
+
+</div>
+
+<div class="main">
+
+<h2>
+
+Welcome {{ fullname }} 
+
+</h2>
+
+<p class="text-muted">
+
+Maintenance Dashboard
+
+</p>
+
+<div class="card-box">
+
+<h5>
+
+Active Tickets
+
+</h5>
+
+<h1>
+
+{{ tickets|length }}
+
+</h1>
+
+</div>
+
+{% for ticket in tickets %}
+
+<div class="ticket-card">
+
+<div class="row align-items-center">
+
+    <!-- Ticket Icon -->
+    <div class="col-md-1 text-center">
+
+        {% if ticket[3]=="Electrical" %}
+            <i class="fa-solid fa-bolt fa-3x text-danger"></i>
+
+        {% elif ticket[3]=="Restroom" %}
+            <i class="fa-solid fa-faucet-drip fa-3x text-warning"></i>
+
+        {% elif ticket[3]=="Classroom" %}
+            <i class="fa-solid fa-school fa-3x text-primary"></i>
+
+        {% else %}
+            <i class="fa-solid fa-screwdriver-wrench fa-3x text-success"></i>
+        {% endif %}
+
+    </div>
+
+    <!-- Ticket Details -->
+    <div class="col-md-5">
+
+        <span class="badge bg-light text-danger mb-2">
+
+            {{ ticket[1] }}
+
+        </span>
+
+        <h4 class="fw-bold">
+
+            {{ ticket[5] }}
+
+        </h4>
+
+        <p class="text-muted mb-1">
+
+            <i class="fa-solid fa-location-dot"></i>
+
+            {{ ticket[4] }}
+
+        </p>
+
+        <small class="text-secondary">
+
+            Category: {{ ticket[3] }}
+
+        </small>
+
+    </div>
+
+    <!-- Priority -->
+    <div class="col-md-2 text-center">
+
+        <small class="text-muted">
+
+            Priority
+
+        </small>
+
+        <br>
+
+        {% if ticket[6]=="Critical" %}
+
+            <span class="badge bg-danger">Critical</span>
+
+        {% elif ticket[6]=="High" %}
+
+            <span class="badge bg-warning text-dark">High</span>
+
+        {% elif ticket[6]=="Medium" %}
+
+            <span class="badge bg-primary">Medium</span>
+
+        {% else %}
+
+            <span class="badge bg-secondary">Low</span>
+
+        {% endif %}
+
+        <br><br>
+
+        <small class="text-muted">
+
+            Status
+
+        </small>
+
+        <br>
+
+        {% if ticket[7]=="Pending" %}
+
+            <span class="badge bg-warning text-dark">
+
+                Pending
+
+            </span>
+
+        {% elif ticket[7]=="In Progress" %}
+
+            <span class="badge bg-info">
+
+                In Progress
+
+            </span>
+
+        {% else %}
+
+            <span class="badge bg-success">
+
+                Completed
+
+            </span>
+
+        {% endif %}
+
+    </div>
+
+    <!-- Image -->
+    <div class="col-md-2 text-center">
+
+        {% if ticket[8] %}
+
+        <img
+        src="{{ url_for('uploaded_file', filename=ticket[8]) }}"
+        class="ticket-image">
+
+        {% else %}
+
+        <div class="ticket-image d-flex align-items-center justify-content-center bg-light">
+
+            <i class="fa-solid fa-image text-secondary fa-2x"></i>
+
+        </div>
+
+        {% endif %}
+
+    </div>
+
+    <!-- Button -->
+    <div class="col-md-2 text-center">
+
+        <a
+        href="{{ url_for('maintenance_view_ticket', id=ticket[0]) }}"
+        class="btn-view">
+
+            <i class="fa-solid fa-eye"></i>
+
+            <span>View Ticket</span>
+
+            <i class="fa-solid fa-arrow-right"></i>
+
+        </a>
+
+    </div>
+
+</div>
+
+</div>
+
+{% endfor %}
